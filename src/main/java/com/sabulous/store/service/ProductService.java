@@ -52,4 +52,6 @@ public class ProductService implements IProductService {
         productRepository.delete(getProductById(productId));
     }
 
+    // TODO write exception handler
+    // retrieve string values from properties file.
 }

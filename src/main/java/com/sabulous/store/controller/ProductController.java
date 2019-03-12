@@ -12,6 +12,7 @@ import org.springframework.http.HttpStatus;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -36,28 +37,26 @@ public class ProductController {
         }
     }
 
-    @GetMapping("products")
+    @GetMapping("/products")
     public ResponseEntity<List<Product>> getAllProducts() {
         List<Product> list = productService.getAllProducts();
         return new ResponseEntity<List<Product>>(list, HttpStatus.OK);
     }
 
     @PostMapping(value = "/products", consumes = "application/json", produces = "application/json")
-	public ResponseEntity<Void> addProduct(@RequestBody Product product, UriComponentsBuilder builder) {
-        System.out.println("listening SIR.");
-        boolean flag = productService.addProduct(product);
-        if (flag == false) {
-            return new ResponseEntity<Void>(HttpStatus.CONFLICT);
+	public ResponseEntity<Product> addProduct(@RequestBody Product product, UriComponentsBuilder builder) {
+        // if there is already a product with the id of passed product parameter, stop.
+        if(getProductById(product.getProductId()).getStatusCode().equals(HttpStatus.OK)) {
+            return new ResponseEntity<Product>(HttpStatus.CONFLICT);
         }
+        productService.addProduct(product);
         HttpHeaders headers = new HttpHeaders();
         headers.setLocation(builder.path("/products/{id}").buildAndExpand(product.getProductId()).toUri());
-        return new ResponseEntity<Void>(headers, HttpStatus.CREATED);
+        return new ResponseEntity<Product>(headers, HttpStatus.CREATED);
     }
     
-    @PutMapping(value="products/update", consumes = "application/json", produces = "application/json")
-    public ResponseEntity<Void> updateProduct(@RequestBody Product product) {
-        //TODO: process PUT request
-
+    @PutMapping(value = "/products/update", consumes = "application/json", produces = "application/json")
+    public ResponseEntity<Product> updateProduct(@RequestBody Product product) {
         if(getProductById(product.getProductId()).getStatusCode().equals(HttpStatus.OK)) {
             productService.updateProduct(product);
             return ResponseEntity.ok().build();
@@ -65,7 +64,14 @@ public class ProductController {
             return ResponseEntity.notFound().build();
         }
     }
-    /* TODO
-        - add deleteProduct controller
-    */
+
+    @DeleteMapping(value = "/products/delete/{id}", produces = "application/json")
+    public ResponseEntity<Product> deleteProduct(@PathVariable("id") Long id) {
+        if(getProductById(id).getStatusCode().equals(HttpStatus.OK)) {
+            productService.deleteProduct(id);
+            return ResponseEntity.ok().build();
+        } else {
+            return ResponseEntity.notFound().build();
+        }
+    }
 }
