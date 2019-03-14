@@ -10,6 +10,7 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "products")
 public class Product {
+    
     @Id
     @GeneratedValue (strategy = GenerationType.AUTO)
     @Column(name = "product_id")
@@ -133,4 +134,5 @@ public class Product {
     public void setDealApplicable(Boolean dealApplicable) {
         this.dealApplicable = dealApplicable;
     }
+
 }

@@ -16,7 +16,7 @@ public class ProductService implements IProductService {
     private ProductRepository productRepository;
 
     @Override
-    public Product getProductById(Long productId) {
+    public Product getProductById(long productId) {
         Product product = productRepository.findByProductId(productId).get(0);
         return product;
     }
@@ -52,6 +52,14 @@ public class ProductService implements IProductService {
         productRepository.delete(getProductById(productId));
     }
 
-    // TODO write exception handler
-    // retrieve string values from properties file.
+    @Override
+    public long getProductCount() {
+        return productRepository.count();
+    }
+
+    @Override
+    public boolean containsProductWithId(long productId) {
+        return productRepository.existsById(productId);
+    }
+
 }
