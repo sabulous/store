@@ -3,29 +3,27 @@ package com.sabulous.store.config;
 import com.sabulous.store.Store;
 import com.sabulous.store.model.*;
 import com.sabulous.store.repository.*;
+import com.sabulous.store.service.CartService;
 import com.sabulous.store.service.ProductService;
 
 import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.ApplicationContext;
-import org.springframework.context.ApplicationContextAware;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.web.servlet.config.annotation.EnableWebMvc;
-import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 	
 @Configuration
-@EnableWebMvc
 @ComponentScan("com.sabulous.config")
 /**
  * Java configuration file that is used for Spring MVC and Thymeleaf configurations
  * // Inserts initial test data into database.
  */
-public class JavaConfiguration implements WebMvcConfigurer,  ApplicationContextAware {
+public class JavaConfiguration {
 
-	private ApplicationContext applicationContext;
+	@Autowired
+	private static ApplicationContext applicationContext;
 
 	@Autowired
 	private ProductRepository repository;
@@ -33,10 +31,8 @@ public class JavaConfiguration implements WebMvcConfigurer,  ApplicationContextA
 	@Autowired
 	private ProductService productService;
 
-	@Override
-	public void setApplicationContext(ApplicationContext applicationContext) {
-		this.applicationContext = applicationContext;
-	}
+	@Autowired
+	private CartService cartService;
 
 	@Bean
 	public CommandLineRunner demo() {
@@ -50,5 +46,9 @@ public class JavaConfiguration implements WebMvcConfigurer,  ApplicationContextA
 			repository.save(new Product("Pan", "Ceramic pan for frying."));
 			repository.save(new Product("Towel Hanger", "Adhesive hanger, 5kg limit."));
 		};
+	}
+
+	public static ApplicationContext getApplicationContext() {
+		return applicationContext;
 	}
 }

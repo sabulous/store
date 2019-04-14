@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/html">
+    <head>
+        <title>Product Details</title>
+        <meta charset="UTF-8"/>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    </head>
+    <body>
+        <p>Product Details</p>
+        <table>
+            <tr> <td th:text="${prod.productId}" /> </tr>
+            <tr> <td th:text="${prod.productName}" /> </tr>
+            <tr> <td th:text="${prod.productDesc}" /> </tr>
+        </table>
+        <p> <a th:href="@{/products}">Go back to Products Page</a> </p>
+    </body>
+</html>

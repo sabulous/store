@@ -13,7 +13,7 @@ public class Store {
 	public static void main(String[] args) {
 		ApplicationContext applicationContext = SpringApplication.run(Store.class, args);
 
-		System.out.println("Hello World!");
+		System.out.println("Main method invoked.");
 	}
 
 	public static Logger getLogger() {

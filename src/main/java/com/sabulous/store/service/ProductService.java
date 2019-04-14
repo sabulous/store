@@ -15,6 +15,10 @@ public class ProductService implements IProductService {
     @Autowired
     private ProductRepository productRepository;
 
+    ProductService() {
+        System.out.println("ProductService created.");
+    }
+
     @Override
     public Product getProductById(long productId) {
         Product product = productRepository.findByProductId(productId).get(0);

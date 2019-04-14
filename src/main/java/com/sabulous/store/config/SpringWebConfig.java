@@ -1,31 +1,18 @@
 package com.sabulous.store.config;
 
-import org.springframework.beans.BeansException;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.web.servlet.config.annotation.EnableWebMvc;
-import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import org.thymeleaf.spring5.SpringTemplateEngine;
 import org.thymeleaf.spring5.templateresolver.SpringResourceTemplateResolver;
 import org.thymeleaf.spring5.view.ThymeleafViewResolver;
 
 @Configuration
-@EnableWebMvc
 @ComponentScan("com.sabulous.config")
-public class SpringWebConfig implements WebMvcConfigurer {
+public class SpringWebConfig {
 
-    private ApplicationContext applicationContext;
-
-    public SpringWebConfig() {
-        super();
-    }
-
-    public void setApplicationContext(final ApplicationContext applicationContext)
-            throws BeansException {
-        this.applicationContext = applicationContext;
-    }
+    private ApplicationContext applicationContext = JavaConfiguration.getApplicationContext();
 
     @Bean
     public SpringResourceTemplateResolver templateResolver(){
@@ -36,7 +23,7 @@ public class SpringWebConfig implements WebMvcConfigurer {
         templateResolver.setPrefix("/WEB-INF/templates/");
         templateResolver.setSuffix(".html");
         // HTML is the default value, added here for the sake of clarity.
-        templateResolver.setTemplateMode("HTML5");
+        templateResolver.setTemplateMode("HTML");
         // Template cache is true by default. Set to false if you want
         // templates to be automatically updated when modified.
         templateResolver.setCacheable(true);

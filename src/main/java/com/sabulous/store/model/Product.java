@@ -10,7 +10,7 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "products")
 public class Product {
-    
+
     @Id
     @GeneratedValue (strategy = GenerationType.AUTO)
     @Column(name = "product_id")
@@ -34,9 +34,10 @@ public class Product {
     @Column(name = "deal_applicable")
     private Boolean dealApplicable;
 
-    protected Product() {}
+    public Product() {}
 
     public Product(String productName, String productDesc) {
+        this();
         this.productName = productName;
         this.productDesc = productDesc;
     }
@@ -47,6 +48,7 @@ public class Product {
                 + "\nname:" + productName
                 + "\ndesc:" + productDesc;
     }
+
     public Long getProductId() {
         return productId;
     }
