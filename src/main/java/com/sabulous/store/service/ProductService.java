@@ -34,7 +34,7 @@ public class ProductService implements IProductService {
 
     @Override
     public boolean addProduct(Product product) {
-        List<Product> list = productRepository.findByProductName(product.getProductName());
+        List<Product> list = productRepository.findByProductId(product.getProductId());
         if(list.size() > 0) {
             return false;
         } else {
